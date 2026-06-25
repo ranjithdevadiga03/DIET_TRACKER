@@ -1,0 +1,12 @@
+node_modules/
+venv/
+__pycache__/
+*.pyc
+.env
+*.db
+.DS_Store
+dist/
+build/
+*.egg-info/
+*.safetensors
+backend/models/
