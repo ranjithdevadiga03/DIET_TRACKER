@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: diet-tracker
+    runtime: python
+    buildCommand: |
+      pip install -r DIET-Tracker/backend/requirements.txt
+      cd DIET-Tracker/frontend && npm install && npm run build
+    startCommand: cd DIET-Tracker/backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: VITE_API_URL
+        value: ""

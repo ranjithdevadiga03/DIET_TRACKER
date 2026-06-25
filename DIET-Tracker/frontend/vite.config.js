@@ -9,4 +9,7 @@ export default defineConfig({
       '/analyze': 'http://localhost:8000',
     },
   },
+  build: {
+    outDir: 'dist',
+  },
 })
