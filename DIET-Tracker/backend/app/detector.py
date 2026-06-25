@@ -5,13 +5,7 @@ import io
 import os
 import json
 
-try:
-    import torch
-    from transformers import DeiTForImageClassification, DeiTImageProcessor
-    HAS_TORCH = True
-except ImportError:
-    HAS_TORCH = False
-    print("Warning: PyTorch/Transformers not available yet. Using mock predictions.")
+HAS_TORCH = False
 
 class FoodDetector:
     def __init__(self):
