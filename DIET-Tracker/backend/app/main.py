@@ -31,14 +31,19 @@ async def analyze(file: UploadFile = File(...), _user=Depends(get_current_user))
     return result
 
 
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "dist")
+BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRONTEND_DIR = os.path.join(BACKEND_DIR, "..", "frontend", "dist")
+FRONTEND_DIR = os.path.abspath(FRONTEND_DIR)
 
-if os.path.isdir(FRONTEND_DIR):
-    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
+ASSETS_DIR = os.path.join(FRONTEND_DIR, "assets")
+
+if os.path.isdir(FRONTEND_DIR) and os.path.isfile(os.path.join(FRONTEND_DIR, "index.html")):
+    if os.path.isdir(ASSETS_DIR):
+        app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
 
     @app.get("/{full_path:path}")
-    async def serve_frontend(request: Request, full_path: str):
+    async def serve_frontend(full_path: str):
         file_path = os.path.join(FRONTEND_DIR, full_path)
-        if os.path.isfile(file_path):
+        if full_path and os.path.isfile(file_path):
             return FileResponse(file_path)
         return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
